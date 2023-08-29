@@ -1,21 +1,18 @@
 import { z } from "zod";
 import { Equal, Expect } from "./helpers/type-utils";
 
-const Id = z.string().uuid();
+const IdObject = z.object({ id: z.string().uuid() } )
 
-const User = z.object({
-  id: Id,
+const User = IdObject.extend({
   name: z.string(),
 });
 
-const Post = z.object({
-  id: Id,
+const Post = IdObject.extend({
   title: z.string(),
   body: z.string(),
 });
 
-const Comment = z.object({
-  id: Id,
+const Comment = IdObject.extend({
   text: z.string(),
 });
 
