@@ -5,6 +5,9 @@ import { z } from "zod";
 
 // HINT - use me!
 const doesStarWarsPersonExist = async (id: string) => {
+
+  console.log('id: ', id)
+
   try {
     const data = await fetch(
       "https://www.totaltypescript.com/swapi/people/" + id + ".json",
@@ -17,15 +20,11 @@ const doesStarWarsPersonExist = async (id: string) => {
 };
 
 const Form = z.object({
-  id: z.string(),
+  id: z.string().refine(doesStarWarsPersonExist, "Not found"),
   //           ^ 🕵️‍♂️
 });
 
-export const validateFormInput = async (values: unknown) => {
-  const parsedData = await Form.parseAsync(values);
-
-  return parsedData;
-};
+export const validateFormInput = async (values: unknown) =>  await Form.parseAsync(values);
 
 // TESTS
 
